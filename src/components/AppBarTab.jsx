@@ -11,11 +11,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const AppBarTab = ({ tabName, link }) => {
-    return <Pressable>
-        <Link to={link} style={{borderRadius: 8}}>
-            <Text style={styles.appBartext}>{tabName}</Text>
-        </Link>
+const AppBarTab = ({ tabName, link, onClick }) => {
+    return <Pressable onPress={onClick}>
+        {
+            link && <Link to={link} style={{ borderRadius: 8 }}>
+                <Text style={styles.appBartext}>{tabName}</Text>
+            </Link>
+        }
+        {
+            onClick && <Text style={styles.appBartext}>{tabName}</Text>
+        }
     </Pressable>
 };
 

@@ -3,6 +3,9 @@ import { View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import Button from './Button';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,8 +33,17 @@ const validationSchema = yup.object().shape({
 
 
 const SignIn = () => {
-    const onSubmit = values => {
-        console.log(values);
+    const { signIn } = useSignIn()
+    const navigate = useNavigate();
+
+    const onSubmit = async ({ userName, password }) => {
+        try {
+            const { success } = await signIn({userName, password});
+            if (success) 
+                navigate('/')
+        } catch (e) {
+            console.log(e)
+        }
     };
 
     return (
