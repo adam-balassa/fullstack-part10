@@ -1,7 +1,9 @@
-import { View, Image, StyleSheet } from "react-native"
+import { View, Image, StyleSheet, Pressable } from "react-native"
 import theme from "../theme";
 import RepositoryStats from "./RepositoryStats";
-import Text from './Text'
+import Text from './Text';
+import Button from './Button';
+import { Link, useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
     avatar: {
@@ -45,15 +47,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 8
+    },
+    buttonContainer: {
+        padding: 4
     }
 });
 
-const RepositoryItem = ({ repository }) => {
-    return <View style={styles.container}>
+const RepositoryItem = ({ repository, isExtended }) => {
+    const navigate = useNavigate()
+
+    const openRepository = () => {
+        navigate(`/repositories/${repository.id}`)
+    }
+
+    return <Pressable style={styles.container} onPress={openRepository} testID="repositoryItem">
         <View style={styles.repositoryHeader}>
             <Image style={styles.avatar} source={{uri: repository.ownerAvatarUrl}}/>
             <View style={styles.repositoryDetails}>
-                <Text fontSize='subheading' fontWeight='bold' style={styles.repositoryDetailLine}>{repository.fullName}</Text>
+                <Text fontSize='subheading' bold style={styles.repositoryDetailLine}>{repository.fullName}</Text>
                 <Text color='textSecondary' style={styles.repositoryDetailLine}>{repository.description}</Text>
                 <View style={styles.languagePill}>
                     <Text white>{repository.language}</Text>
@@ -66,7 +77,12 @@ const RepositoryItem = ({ repository }) => {
             <RepositoryStats statValue={repository.ratingAverage} statLabel='Rating'></RepositoryStats>
             <RepositoryStats statValue={repository.reviewCount } statLabel='Reviews'></RepositoryStats>
         </View>
-    </View>
+        { isExtended && <View style={styles.buttonContainer}>
+            <Link to={repository.url}>
+                <Button text='Open in GitHub'/>
+            </Link>
+        </View>}
+    </Pressable>
 }
 
 export default RepositoryItem;

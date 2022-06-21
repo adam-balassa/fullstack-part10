@@ -1,22 +1,10 @@
-import { FlatList } from 'react-native';
 import useRepositories from '../hooks/useRepositories';
-import RepositoryItem from './RepositoryItem';
+import RepositoryListContainer from './RepositoryListContainer';
 
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
-
-  const repositoryNodes = repositories
-    ? repositories.edges.map(edge => edge.node)
-    : [];
-
-  return (
-    <FlatList
-      keyExtractor={item => item.fullName}
-      data={repositoryNodes}
-      renderItem={({item}) => <RepositoryItem repository={item}/>}
-    />
-  );
+  const { repositories, loading } = useRepositories();
+  return loading ? <></> : <RepositoryListContainer {...{repositories}}/>
 };
 
 export default RepositoryList;
