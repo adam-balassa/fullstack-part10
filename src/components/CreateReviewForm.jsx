@@ -6,7 +6,7 @@ import * as yup from 'yup';
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 64,
+        marginTop: 30,
         marginHorizontal: 32
     }
 });
@@ -45,11 +45,13 @@ const CreateReviewForm = ({ onSubmit }) => {
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}>
-            {({ handleSubmit }) => ( // TODO
+            {({ handleSubmit }) => (
                 <View style={styles.container}>
-                    <FormikTextInput name='userName' placeholder="Username..." />
-                    <FormikTextInput name='password' placeholder="Password..." secureTextEntry />
-                    <Button text='Sign in' onPress={handleSubmit} />
+                    <FormikTextInput name='ownerName' placeholder="Repository owner name..." />
+                    <FormikTextInput name='repositoryName' placeholder="Repository name..." />
+                    <FormikTextInput name='rating' placeholder="Rating (0-100)" />
+                    <FormikTextInput name='text' placeholder="Review..." multiline/>
+                    <Button text='Create a review' onPress={handleSubmit} />
                 </View>
             )}
         </Formik>

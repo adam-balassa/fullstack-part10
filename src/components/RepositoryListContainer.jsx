@@ -1,17 +1,30 @@
+import React from 'react';
 import { FlatList } from 'react-native';
 import RepositoryItem from './RepositoryItem';
+import RepositoryFilter from './RepositoryFilter';
 
 
-const RepositoryList = ({ repositories }) => {
-  const repositoryNodes = repositories.edges.map(edge => edge.node);
+class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    const { selectedOrderBy, setOrderBy, filter, setFilter} = this.props
+    return <RepositoryFilter {...{selectedOrderBy, setOrderBy, filter, setFilter}}/>
+  }
 
-  return (
-    <FlatList
-      keyExtractor={item => item.fullName}
-      data={repositoryNodes}
-      renderItem={({item}) => <RepositoryItem repository={item}/>}
-    />
-  );
-};
+  render() {
+    const { repositories } = this.props
+    this.repositoryNodes = repositories.edges.map(edge => edge.node);
+    
+    return (
+      <FlatList
+        keyExtractor={item => item.fullName}
+        data={this.repositoryNodes}
+        ListHeaderComponent={this.renderHeader}
+        renderItem={({item}) => <RepositoryItem repository={item}/>}
+        onEndReached={this.props.onEndReach}
+        onEndReachedThreshold={0.5}
+      />
+    );
+  }
+}
 
-export default RepositoryList;
+export default RepositoryListContainer;

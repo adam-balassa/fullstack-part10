@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 const initialValues = {
     userName: '',
     password: '',
+    passwordConfirmation: ''
 };
 
 const validationSchema = yup.object().shape({
@@ -24,10 +25,15 @@ const validationSchema = yup.object().shape({
     password: yup
         .string()
         .min(5, 'Password must be longer than 5')
+        .max(50, 'Password can\'t be longer than 50')
         .required('Password is required'),
+    passwordConfirmation: yup
+        .string()
+        .oneOf([yup.ref('password'), null], 'The two passwords don\'t match')
+        .required('The two passwords don\'t match')
 });
 
-const SignInForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit }) => {
     return (
         <Formik
             initialValues={initialValues}
@@ -37,11 +43,12 @@ const SignInForm = ({ onSubmit }) => {
                 <View style={styles.container}>
                     <FormikTextInput name='userName' placeholder="Username..." />
                     <FormikTextInput name='password' placeholder="Password..." secureTextEntry />
-                    <Button text='Sign in' onPress={handleSubmit} />
+                    <FormikTextInput name='passwordConfirmation' placeholder="Confirm passford..." secureTextEntry />
+                    <Button text='Sign up' onPress={handleSubmit} />
                 </View>
             )}
         </Formik>
     )
 };
 
-export default SignInForm;
+export default SignUpForm;

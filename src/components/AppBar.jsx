@@ -25,7 +25,9 @@ const AppBar = () => {
   return <View style={styles.container}>
     <ScrollView horizontal>
       <AppBarTab tabName='Repositories' link='/' />
+      { isLoggedIn && <AppBarTab tabName='Create a review' link='/review' /> }
       { !isLoggedIn && <AppBarTab tabName='Sign in' link='/sign-in' /> }
+      { !isLoggedIn && <AppBarTab tabName='Sign up' link='/sign-up' /> }
       { isLoggedIn && <AppBarTab tabName='Sign out' onClick={signOut} /> }
     </ScrollView>
   </View>;

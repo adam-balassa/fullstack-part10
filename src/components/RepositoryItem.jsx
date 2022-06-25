@@ -1,3 +1,4 @@
+import * as Linking from 'expo-linking';
 import { View, Image, StyleSheet, Pressable } from "react-native"
 import theme from "../theme";
 import RepositoryStats from "./RepositoryStats";
@@ -78,9 +79,7 @@ const RepositoryItem = ({ repository, isExtended }) => {
             <RepositoryStats statValue={repository.reviewCount } statLabel='Reviews'></RepositoryStats>
         </View>
         { isExtended && <View style={styles.buttonContainer}>
-            <Link to={repository.url}>
-                <Button text='Open in GitHub'/>
-            </Link>
+            <Button text='Open in GitHub' onPress={() => Linking.openURL(repository.url)}/>
         </View>}
     </Pressable>
 }
